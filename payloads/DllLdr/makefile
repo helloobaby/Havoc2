@@ -14,10 +14,10 @@ x64: clean
 
 	@ $(CCX64) -c Source/Entry.c -o $(EXECUTABLE_X64) $(OPTIONS)
 
-	@ echo "[*] Extract shellcode: $(RAWBINARY_X64)"
-	@ python3 Scripts/extract.py -f $(EXECUTABLE_X64) -o $(RAWBINARY_X64)
+#	@ echo "[*] Extract shellcode: $(RAWBINARY_X64)"
+#	@ python3 Scripts/extract.py -f $(EXECUTABLE_X64) -o $(RAWBINARY_X64)
 
-	@ rm $(EXECUTABLE_X64)
+#	@ rm $(EXECUTABLE_X64)
 
 clean:
 	@ rm -rf Bin/*.o

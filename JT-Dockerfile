@@ -6,7 +6,7 @@
 #	sudo docker build -t jenkins-havoc-teamserver -f JT-Dockerfile .
 #
 #    Run the image:
-#	docker run -p7766:8080 -it -d -v havoc-c2-data:/Data jenkins-havoc-teamserver
+#	docker run p40056:40056 -it -d -v havoc-c2-data:/Data jenkins-havoc-teamserver
 #
 ###################################################################
 FROM jenkins/jenkins:lts

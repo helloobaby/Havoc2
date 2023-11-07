@@ -22,6 +22,8 @@ DLLEXPORT VOID KaynLoader( LPVOID lpParameter )
 
     // 0. First we need to get the DLL base
     StartAddress   = RVA2VA( PVOID, KCharStringToWCharString, 0x70 );
+
+    // 我感觉他是把这个Loader附加在那个DLL的前面了
     KaynLibraryLdr = KaynCaller( StartAddress );
 
     // ------------------------

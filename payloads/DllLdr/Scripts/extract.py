@@ -9,6 +9,7 @@ def main(options):
     with open(options.f, 'rb') as f:
         object_file = f.read()
 
+    # coff节区个数
     num_sections = struct.unpack('<H', object_file[2 : 2 + 2])[0]
     #print(f"num_sections: {num_sections}")
 
@@ -17,6 +18,7 @@ def main(options):
         size_section = 40
         section = object_file[size_header + (size_section * num_section) : size_header + (size_section * num_section) + size_section]
         name = struct.unpack('8s', section[:8])[0].decode('ascii').rstrip('\x00')
+        # 把代码段单独提出来
         if name == '.text':
             size_of_raw_data = struct.unpack('<I', section[16: 16 + 4])[0]
             #print(f'size_of_raw_data: {hex(size_of_raw_data)}')
