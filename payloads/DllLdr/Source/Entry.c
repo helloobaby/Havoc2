@@ -2,6 +2,7 @@
 #include <Native.h>
 #include <ntdef.h>
 
+// 
 DLLEXPORT VOID KaynLoader( LPVOID lpParameter )
 {
     INSTANCE                Instance        = { 0 };

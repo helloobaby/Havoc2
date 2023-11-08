@@ -9,57 +9,23 @@
 #	docker run p40056:40056 -it -d -v havoc-c2-data:/Data jenkins-havoc-teamserver
 #
 ###################################################################
-FROM jenkins/jenkins:lts
+
+# jenkins apt换源一直换不成功,选择用最新的ubuntu构建了
+
+# 构建Docker镜像:
+# 	进入Havco源代码目录
+#   执行sudo docker build -t havoc-teamserver -f JT-Dockerfile .
+# 启动镜像
+#   docker run -p7766:8080 -p40056:40056 -p444:444 -p445:445 -p446:446 -it -d -v havoc-c2-data:/Data -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix havoc-teamserver
 #
-# ---- Install via APT ----
-USER root
-USER jenkins
-# 
-# ---- Establish Volumes ----
-#
-VOLUME /var/jenkins_home
-#
-# ---- Setup Jenkins ----
-ENV JAVA_OPTS -Djenkins.install.runSetupWizard=false
-ENV CASC_JENKINS_CONFIG /var/jenkins_home/casc.yaml
-COPY plugins.txt /usr/share/jenkins/ref/plugins.txt
-#
-# ----Further Customize Jenkins through custom groovy scripts:----
-# COPY custom.groovy /usr/share/jenkins/ref/init.groovy.d/custom.groovy
-#
-# ------------------Install Extra Software & Tools------------------
-#
-# ----Env Setup----
-# RUN mkdir /Tools
-# CHMOD 777 /Tools
-# 
-# ----Build Env Stuff----
+
+FROM homent7/ubuntu23.04
+
 USER root
 ENV PATH=/root/.local/bin:$PATH
 ENV USER=root
-RUN touch /etc/apt/sources.list
-RUN echo "deb http://us.archive.ubuntu.com/ubuntu/ bionic main restricted" >> /etc/apt/sources.list
-RUN echo "deb http://us.archive.ubuntu.com/ubuntu/ bionic-updates main restricted" >> /etc/apt/sources.list
-RUN echo "deb http://us.archive.ubuntu.com/ubuntu/ bionic universe" >> /etc/apt/sources.list
-RUN echo "deb http://us.archive.ubuntu.com/ubuntu/ bionic-updates universe" >> /etc/apt/sources.list
-RUN echo "deb http://us.archive.ubuntu.com/ubuntu/ bionic multiverse" >> /etc/apt/sources.list
-RUN echo "deb http://us.archive.ubuntu.com/ubuntu/ bionic-updates multiverse" >> /etc/apt/sources.list
-RUN echo "deb http://us.archive.ubuntu.com/ubuntu/ bionic-backports main restricted universe multiverse" >> /etc/apt/sources.list
-RUN echo "deb http://security.ubuntu.com/ubuntu bionic-security main restricted" >> /etc/apt/sources.list
-RUN echo "deb http://security.ubuntu.com/ubuntu bionic-security universe" >> /etc/apt/sources.list
-RUN echo "deb http://security.ubuntu.com/ubuntu bionic-security multiverse" >> /etc/apt/sources.list
-RUN echo "deb http://mirrors.ustc.edu.cn/ubuntu/ xenial main restricted universe multiverse" >> /etc/apt/sources.list
-RUN echo "deb http://mirrors.ustc.edu.cn/ubuntu/ xenial-security main restricted universe multiverse" >> /etc/apt/sources.list
-RUN echo "deb http://mirrors.ustc.edu.cn/ubuntu/ xenial-updates main restricted universe multiverse" >> /etc/apt/sources.list
-RUN echo "deb http://mirrors.ustc.edu.cn/ubuntu/ xenial-proposed main restricted universe multiverse" >> /etc/apt/sources.list
-RUN echo "deb http://mirrors.ustc.edu.cn/ubuntu/ xenial-backports main restricted universe multiverse" >> /etc/apt/sources.list
-RUN echo "deb-src http://mirrors.ustc.edu.cn/ubuntu/ xenial main restricted universe multiverse" >> /etc/apt/sources.list
-RUN echo "deb-src http://mirrors.ustc.edu.cn/ubuntu/ xenial-security main restricted universe multiverse" >> /etc/apt/sources.list
-RUN echo "deb-src http://mirrors.ustc.edu.cn/ubuntu/ xenial-updates main restricted universe multiverse" >> /etc/apt/sources.list
-RUN echo "deb-src http://mirrors.ustc.edu.cn/ubuntu/ xenial-proposed main restricted universe multiverse" >> /etc/apt/sources.list
-RUN echo "deb-src http://mirrors.ustc.edu.cn/ubuntu/ xenial-backports main restricted universe multiverse" >> /etc/apt/sources.list
-RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 40976EAF437D05B5
-RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 3B4FE6ACC0B21F32
+RUN sed -i s@/archive.ubuntu.com/@/mirrors.aliyun.com/@g /etc/apt/sources.list
+
 RUN apt update \
 	&& apt -y install \
 	alien \
@@ -83,30 +49,28 @@ RUN apt update \
 	qtchooser \
 	qt5-qmake \
 	qtbase5-dev-tools \
+	libcap2-bin \
 	&& pip install --upgrade jsonschema --break-system-packages
 #
 # Build cmake as the repo version is out-of-date...
-RUN wget https://github.com/Kitware/CMake/releases/download/v3.24.1/cmake-3.24.1-Linux-x86_64.sh -O cmake.sh
+#RUN wget https://github.com/Kitware/CMake/releases/download/v3.24.1/cmake-3.24.1-Linux-x86_64.sh -O cmake.sh
+RUN wget --no-check-certificate https://43.241.16.222:43337/Temp/cmake-3.24.1-linux-x86_64.sh -O cmake.sh
 RUN sh cmake.sh --prefix=/usr/local/ --exclude-subdir
 #
 # Setting up latest Go
 RUN wget https://go.dev/dl/go1.19.1.linux-amd64.tar.gz -O go1.19.1.tar.gz
 RUN rm -rf /usr/local/go && tar -C /usr/local -xzf go1.19.1.tar.gz
-RUN echo 'export PATH=$PATH:/usr/local/go/bin' > /var/jenkins_home/.profile
 RUN rm /usr/bin/go
 RUN cp /usr/local/go/bin/go /usr/bin/go
 RUN go version
+RUN go env -w GOPROXY=https://goproxy.cn,direct
 #
 # Because Go doesn't just go...
 RUN go env -w GOFLAGS=-mod=mod
-#
-# Install Jenkins Plugins
-RUN jenkins-plugin-cli --plugin-file /usr/share/jenkins/ref/plugins.txt
+
 #
 # Copy over Havoc TeamServer files for local Build
 COPY . Build/
 RUN chmod -R 777 Build/
-#
-USER jenkins
 #
 #
