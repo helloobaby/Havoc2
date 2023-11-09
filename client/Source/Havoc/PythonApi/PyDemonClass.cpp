@@ -130,7 +130,7 @@ int DemonClass_init( PPyDemonClass self, PyObject *args, PyObject *kwds )
     char*     DemonID          = NULL;
     auto      DemonSessions    = HavocX::Teamserver.Sessions;
     uint32_t  NumberOfSessions = DemonSessions.size();
-    char*     kwdlist[]        = { "DemonID", NULL };
+    char*     kwdlist[]        = { (char*)"DemonID", NULL };
 
     if ( ! PyArg_ParseTupleAndKeywords( args, kwds, "s", kwdlist, &DemonID ) )
         return -1;

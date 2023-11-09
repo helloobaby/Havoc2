@@ -14,6 +14,9 @@
 #include <Havoc/Packager.hpp>
 #include <Havoc/Connector.hpp>
 
+#ifdef _MSC_VER
+#define _USE_MATH_DEFINES
+#endif
 #include <math.h>
 
 #include <QKeyEvent>

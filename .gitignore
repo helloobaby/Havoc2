@@ -31,3 +31,5 @@ data/
 client/Build/
 client/Havoc
 client/Modules/
+client/Debug
+client/Release

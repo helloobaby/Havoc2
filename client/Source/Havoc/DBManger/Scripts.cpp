@@ -10,7 +10,7 @@ bool HavocNamespace::HavocSpace::DBManager::AddScript( QString Path )
     if ( ! query.exec() )
     {
         spdlog::error( "[DB] Failed to add Script: {}", query.lastError().text().toStdString() );
-        return false;
+        return false; 
     }
 
     return true;

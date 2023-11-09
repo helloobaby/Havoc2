@@ -53,7 +53,9 @@ typedef char*               PCHAR;
 typedef char                BYTE;
 typedef void*               PVOID;
 typedef void*               LPVOID;
-typedef unsigned long int   UINT_PTR;
+#ifndef _MSC_VER
+typedef unsigned long int UINT_PTR;
+#endif
 
 /* std typedefs */
 typedef std::map<std::string, std::string> MapStrStr;
@@ -208,7 +210,7 @@ namespace HavocNamespace
 
     namespace Util
     {
-        typedef struct
+    typedef struct cSessionItem
         {
 
             QString TeamserverID;

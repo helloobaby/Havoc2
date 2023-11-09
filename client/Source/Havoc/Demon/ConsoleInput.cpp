@@ -2260,7 +2260,12 @@ auto DemonCommands::DispatchCommand( bool Send, QString TaskID, const QString& c
 
                             if ( ! Command.Path.empty() )
                             {
+#ifndef _MSC_VER
                                 Path = std::filesystem::current_path();
+
+#else
+                              Path = std::filesystem::current_path().string();
+#endif// !_MSC_VER
                                 spdlog::debug( "Set current path to {}", Command.Path );
                                 std::filesystem::current_path( Command.Path );
                             }
@@ -2345,7 +2350,13 @@ auto DemonCommands::DispatchCommand( bool Send, QString TaskID, const QString& c
 
                         if ( ! Command.Path.empty() )
                         {
+#ifndef _MSC_VER
                             Path = std::filesystem::current_path();
+
+#else
+                          Path = std::filesystem::current_path().string();
+                            #endif
+
                             spdlog::debug( "Set current path to {}", Command.Path );
                             std::filesystem::current_path( Command.Path );
                         }
@@ -2593,7 +2604,13 @@ auto DemonCommands::DispatchCommand( bool Send, QString TaskID, const QString& c
 
                                 if ( ! Command.Path.empty() )
                                 {
-                                    Path = std::filesystem::current_path();
+#ifndef _MSC_VER
+                                  Path = std::filesystem::current_path();
+
+#else
+                                  Path =
+                                      std::filesystem::current_path().string();
+#endif
                                     spdlog::debug( "Set current path to {}", Command.Path );
                                     std::filesystem::current_path( Command.Path );
                                 }

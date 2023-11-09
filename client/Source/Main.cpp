@@ -10,6 +10,7 @@ int main( int argc, char** argv )
     QTextCodec::setCodecForLocale( codec );
 
     spdlog::set_pattern( "[%T] [%^%l%$] %v" );
+    
     spdlog::info( "Havoc Framework [Version: {}] [CodeName: {}]", HavocNamespace::Version, HavocNamespace::CodeName );
 
     Arguments.add( "debug", '\0', "debug mode" );
@@ -30,10 +31,10 @@ int main( int argc, char** argv )
     QApplication::setFont( Monaco );
 
     QGuiApplication::setWindowIcon( QIcon( ":/Havoc.ico" ) );
-
+    
     HavocNamespace::HavocApplication = new HavocNamespace::HavocSpace::Havoc( new QMainWindow );
     HavocNamespace::HavocApplication->Init( argc, argv );
-
+    
     int AppStatus = QApplication::exec();
 
     spdlog::info( "Havoc Application status: {}", AppStatus );

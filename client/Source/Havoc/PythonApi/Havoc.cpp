@@ -105,7 +105,11 @@ PyObject* PythonAPI::Havoc::Core::RegisterCommand( PyObject *self, PyObject *arg
     u32   Behavior      = 0;
     auto  CompleteText  = QString();
     auto  Path          = HavocX::Teamserver.LoadingScript;
-    PCHAR KeyWords[]    = { "function", "module", "command", "description", "behavior", "usage", "example", "agent", NULL };
+    PCHAR KeyWords[] = {(char*)"function", (char*)"module", (char*)"command",
+                        (char*)"description",
+                        (char*)"behavior",
+                        (char*)"usage",
+        (char*)"example",     (char*)"agent",    NULL};
 
     if ( ! PyArg_ParseTupleAndKeywords( args, kwargs, "Osssiss|s", KeyWords, &Function, &Module, &Command, &Description, &Behavior, &Usage, &Example, &Agent ) )
         Py_RETURN_NONE;

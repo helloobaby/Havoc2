@@ -7,16 +7,16 @@ set( CMAKE_AUTOMOC ON )
 set( CMAKE_AUTORCC ON )
 set( CMAKE_AUTOUIC ON )
 
-set( CMAKE_CPP_COMPILER /usr/bin/x86_64-w64-mingw32-g++ )
-set( CMAKE_C_COMPILER /usr/bin/x86_64-w64-mingw32-gcc )
-set( CMAKE_CXX_FLAGS "-fpermissive" )
+#set( CMAKE_CPP_COMPILER /usr/bin/x86_64-w64-mingw32-g++ )
+#set( CMAKE_C_COMPILER /usr/bin/x86_64-w64-mingw32-gcc )
+#set( CMAKE_CXX_FLAGS "-fpermissive" )
 
 set( QT_VERSION 5 )
 set( REQUIRED_LIBS Core Gui Widgets Network WebSockets Sql )
 set( REQUIRED_LIBS_QUALIFIED Qt5::Core Qt5::Gui Qt5::Widgets Qt5::Network Qt5::WebSockets Qt5::Sql )
 
 # Ensure 3.10 is used if present. If not, modules will not work within the client.
-set( Python_ADDITIONAL_VERSIONS 3.10 )
+#set( Python_ADDITIONAL_VERSIONS 3.10 )
 
 if(APPLE)
   find_package(Python 3 COMPONENTS Interpreter Development REQUIRED)
@@ -29,7 +29,7 @@ if(APPLE)
 elseif(UNIX)
   find_package(PythonLibs 3 REQUIRED)
 else()
-  set(PYTHONLIBS_VERSION_STRING $ENV{PY_VERSION})
+  find_package(PythonLibs 3 REQUIRED)
 endif()
 
 find_package( spdlog REQUIRED )
@@ -44,6 +44,8 @@ if(APPLE)
     include_directories( "${BREW_PREFIX}/Frameworks/Python.framework/Headers" )
 elseif(UNIX)
     include_directories( ${PYTHON_INCLUDE_DIRS} )
+else()
+	find_package(Python3 COMPONENTS Development REQUIRED)
 endif()
 
 set( APP_ICON_RESOURCE_WINDOWS "Data/Havoc.qrc" )
@@ -169,7 +171,8 @@ add_definitions( -DQT_NO_DEBUG_OUTPUT )
 target_link_libraries(
     ${PROJECT_NAME}
     ${REQUIRED_LIBS_QUALIFIED}
-    ${PYTHON_LIBRARIES}
+    #${PYTHON_LIBRARIES}
+	Python3::Python
     spdlog::spdlog
     spdlog::spdlog_header_only
 )
