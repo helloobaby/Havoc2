@@ -10,7 +10,7 @@ Teamserver {
 }
 
 Operators {
-    user "Neo" {
+    user "sbb" {
         Password = "123456"
     }
 }
@@ -22,7 +22,7 @@ Service {
 }
 
 Demon {
-    Sleep = 2
+    Sleep = 10
     Jitter = 15
 
     TrustXForwardedFor = false
