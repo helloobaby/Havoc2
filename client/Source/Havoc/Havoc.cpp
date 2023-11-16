@@ -9,7 +9,7 @@ HavocSpace::Havoc::Havoc( QMainWindow* w )
 
     this->HavocMainWindow = w;
     this->dbManager = new HavocSpace::DBManager( "data/client.db", DBManager::CreateSqlFile );
-
+    
 }
 
 void HavocSpace::Havoc::Init( int argc, char** argv )

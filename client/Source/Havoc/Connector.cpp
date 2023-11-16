@@ -3,6 +3,7 @@
 #include <QCryptographicHash>
 #include <QMap>
 #include <QBuffer>
+#include <QTimer>
 
 Connector::Connector( Util::ConnectionInfo* ConnectionInfo )
 {
@@ -46,6 +47,7 @@ Connector::Connector( Util::ConnectionInfo* ConnectionInfo )
         SendLogin();
     } );
 
+    // ip不符合正常格式
     QObject::connect( Socket, &QWebSocket::disconnected, this, [&]()
     {
         MessageBox( "Teamserver error", Socket->errorString(), QMessageBox::Critical );
@@ -54,6 +56,15 @@ Connector::Connector( Util::ConnectionInfo* ConnectionInfo )
 
         Havoc::Exit();
     } );
+
+    // Windows上构建的时候没有Qt版本对应的Openssl就会报这个错误
+      QObject::connect(
+        Socket, QOverload<QAbstractSocket::SocketError>::of(&QWebSocket::error),
+        [=](QAbstractSocket::SocketError error) { 
+             MessageBox("Teamserver error", "Connect error",QMessageBox::Critical);
+        }
+      );
+    
 
     Socket->open( QUrl( Server ) );
 }

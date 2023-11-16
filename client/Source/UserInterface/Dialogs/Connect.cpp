@@ -342,14 +342,14 @@ void HavocNamespace::UserInterface::Dialogs::Connect::onButton_NewProfile()
 
     listWidget->setCurrentIndex(QModelIndex());
 
-    lineEdit_Name->setText( "Death Star" );
+    lineEdit_Name->setText( "Profile Name" );
     lineEdit_Name->setPalette(*paletteWhite);
     lineEdit_Name->setReadOnly(false);
 
     lineEdit_Host->setText( "127.0.0.1" );
     lineEdit_Port->setText( "40056" );
-    lineEdit_User->setText( "5pider" );
-    lineEdit_Password->setText( "password" );
+    lineEdit_User->setText( "UserName" );
+    lineEdit_Password->setText( "Password" );
 }
 
 void HavocNamespace::UserInterface::Dialogs::Connect::handleContextMenu( const QPoint &pos )

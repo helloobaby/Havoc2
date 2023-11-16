@@ -394,19 +394,31 @@ void UserInterface::Widgets::TeamserverTabSession::handleDemonContextMenu( const
                 else if ( action->text().compare( "Export" ) == 0 )
                 {
                     Session.Export();
-                }
-                else if ( action->text().compare( "Remove" ) == 0 )
-                {
-                    auto SessionID = SessionTableWidget->SessionTableWidget->item( SessionTableWidget->SessionTableWidget->currentRow(), 0 )->text();
+                } else if (action->text().compare("Remove") == 0) {
+                  QItemSelectionModel* select =
+                      SessionTableWidget->SessionTableWidget->selectionModel();
+                  QModelIndexList selectedRows = select->selectedRows();
 
-                    for ( auto & Session : HavocX::Teamserver.Sessions )
-                    {
-                        if ( SessionID.compare( Session.Name ) == 0 )
-                        {
-                            SessionTableWidget->SessionTableWidget->removeRow( SessionTableWidget->SessionTableWidget->currentRow() );
-                            HavocX::Teamserver.TabSession->SessionGraphWidget->GraphNodeRemove( Session );
-                        }
+                  std::vector<QString> SessionIDs;
+                  for (auto Index : selectedRows) {
+                    SessionIDs.push_back(SessionTableWidget->SessionTableWidget
+                                             ->item(Index.row(), 0)
+                                             ->text());
+                  }
+
+                  for (auto SessionID : SessionIDs) {
+                    for (auto& Session : HavocX::Teamserver.Sessions) {
+                      if (SessionID.compare(Session.Name) == 0) {
+                        SessionTableWidget->SessionTableWidget->removeRow(
+                            SessionTableWidget->SessionTableWidget
+                                ->currentRow());
+                        HavocX::Teamserver.TabSession->SessionGraphWidget
+                            ->GraphNodeRemove(Session);
+                      }
                     }
+                  }
+                
+
                 }
                 else if ( action->text().compare( "Thread" ) == 0 || action->text().compare( "Process" ) == 0 )
                 {
