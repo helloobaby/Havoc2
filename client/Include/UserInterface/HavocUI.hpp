@@ -32,7 +32,6 @@ public:
     QAction*               actionNew_Client              = {};
     QAction*               actionChat                    = {};
     QAction*               actionPreferences             = {};
-    QAction*               actionDisconnect              = {};
     QAction*               actionExit                    = {};
     QAction*               actionTeamserver              = {};
     QAction*               actionGeneratePayload         = {};

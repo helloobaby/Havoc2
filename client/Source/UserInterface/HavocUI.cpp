@@ -49,9 +49,6 @@ void HavocNamespace::UserInterface::HavocUI::setupUi(QMainWindow *Havoc)
     actionPreferences->setIcon( QIcon( ":/icons/settings" ) );
     actionPreferences->setShortcut( QKeySequence( "Ctrl+Alt+s" ) );
 
-    actionDisconnect = new QAction( HavocWindow );
-    actionDisconnect->setObjectName( QString::fromUtf8( "actionDisconnect" ) );
-
     actionExit = new QAction( HavocWindow );
     actionExit->setObjectName( QString::fromUtf8( "actionExit" ) );
 
@@ -158,7 +155,6 @@ void HavocNamespace::UserInterface::HavocUI::setupUi(QMainWindow *Havoc)
 
     menuHavoc->addAction( actionNew_Client );
     menuHavoc->addSeparator();
-    menuHavoc->addAction( actionDisconnect );
     menuHavoc->addAction( actionExit );
 
     MenuSession->addAction( actionSessionsTable );
@@ -340,7 +336,6 @@ void HavocNamespace::UserInterface::HavocUI::retranslateUi( QMainWindow* Havoc )
 
     actionNew_Client->setText( "New Client" );
     actionChat->setText( "Teamserver Chat" );
-    actionDisconnect->setText( "Disconnect" );
     actionExit->setText( "Exit" );
     actionTeamserver->setText( "Teamserver" );
     actionGeneratePayload->setText( "Payload" );
@@ -392,11 +387,6 @@ void HavocNamespace::UserInterface::HavocUI::ConnectEvents()
             Teamserver->TeamserverChat->ChatWidget,
             "Teamserver Chat"
         );
-    } );
-
-    QMainWindow::connect( actionDisconnect, &QAction::triggered, this, []() {
-
-            MessageBox( "Info", "Not implemented", QMessageBox::Critical );
     } );
 
     QMainWindow::connect( actionExit, &QAction::triggered, this, []() {
