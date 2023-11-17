@@ -195,6 +195,8 @@ Util::ConnectionInfo HavocNamespace::UserInterface::Dialogs::Connect::StartDialo
     {
         auto ConnectionInstant = new Connector( ConnectionInfo );
 
+        ConnectionInstant->PassDB(this->getDB());
+
         HavocX::Teamserver = *ConnectionInfo;
         HavocX::Connector  = ConnectionInstant;
 
@@ -349,7 +351,7 @@ void HavocNamespace::UserInterface::Dialogs::Connect::onButton_NewProfile()
     lineEdit_Host->setText( "127.0.0.1" );
     lineEdit_Port->setText( "40056" );
     lineEdit_User->setText( "UserName" );
-    lineEdit_Password->setText( "Password" );
+    lineEdit_Password->setText( "123456" );   // Ä¬ÈÏÃÜÂë
 }
 
 void HavocNamespace::UserInterface::Dialogs::Connect::handleContextMenu( const QPoint &pos )
@@ -377,4 +379,10 @@ void HavocNamespace::UserInterface::Dialogs::Connect::itemsClear()
     this->listWidget->clear();
     this->dbManager->removeAllTeamservers();
     this->onButton_NewProfile();
+}
+
+
+HavocNamespace::HavocSpace::DBManager*
+HavocNamespace::UserInterface::Dialogs::Connect::getDB() {
+  return this->dbManager;
 }

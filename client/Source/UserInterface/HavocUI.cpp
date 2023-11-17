@@ -395,12 +395,8 @@ void HavocNamespace::UserInterface::HavocUI::ConnectEvents()
     } );
 
     QMainWindow::connect( actionDisconnect, &QAction::triggered, this, []() {
-        if ( HavocX::Connector != nullptr ) {
-            HavocX::Connector->Disconnect();
-            MessageBox( "Disconnected", "Disconnected from " + HavocX::Teamserver.Name, QMessageBox::Information );
-        } else {
-            MessageBox( "Error", "Couldn't disconnect from " + HavocX::Teamserver.Name, QMessageBox::Critical );
-        }
+
+            MessageBox( "Info", "Not implemented", QMessageBox::Critical );
     } );
 
     QMainWindow::connect( actionExit, &QAction::triggered, this, []() {

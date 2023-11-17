@@ -39,13 +39,30 @@ Connector::Connector( Util::ConnectionInfo* ConnectionInfo )
         spdlog::critical( "Got Invalid json" );
     } );
 
-    QObject::connect( Socket, &QWebSocket::connected, this, [&]()
-    {
-        this->Packager = new HavocSpace::Packager;
-        this->Packager->setTeamserver( this->Teamserver->Name );
+    QObject::connect(Socket, &QWebSocket::connected, this, [&]() {
+      this->Packager = new HavocSpace::Packager;
+      this->Packager->setTeamserver(this->Teamserver->Name);
+      auto dbMangager = this->GetDb();
 
-        SendLogin();
-    } );
+      // 登录成功,修改数据库中对应的TeamSever的时间戳
+      auto query = QSqlQuery();
+
+      bool success = true;
+      success |= query.prepare(
+          "update Teamservers set TimeStamp=:TimeStamp where "
+          "ProfileName=:ProfileName");
+      query.bindValue(":TimeStamp", QDateTime::currentMSecsSinceEpoch());
+
+      query.bindValue(":ProfileName",
+                      this->Teamserver->Name.toStdString().c_str());
+
+      if (!(success |= query.exec())) {
+        spdlog::error("[DB] Failed to update profile timestamp {}",
+                      query.lastError().text().toStdString());
+      }
+
+      SendLogin();
+    });
 
     // ip不符合正常格式
     QObject::connect( Socket, &QWebSocket::disconnected, this, [&]()
@@ -109,4 +126,17 @@ void Connector::SendLogin()
 void Connector::SendPackage( Util::Packager::PPackage Package )
 {
     Socket->sendBinaryMessage( Packager->EncodePackage( *Package ).toJson( QJsonDocument::Compact ) );
+}
+
+
+void Connector::PassDB(HavocNamespace::HavocSpace::DBManager* dbManager) {
+
+    this->dbManager = dbManager;
+}
+
+HavocNamespace::HavocSpace::DBManager* Connector::GetDb() {
+  if (!this->dbManager) {
+    assert(0 && "Used befor init");
+  }
+  return this->dbManager;
 }

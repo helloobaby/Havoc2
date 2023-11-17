@@ -8,13 +8,16 @@ bool HavocSpace::DBManager::addTeamserverInfo( const Util::ConnectionInfo& conne
     auto query   = QSqlQuery();
     auto success = true;
 
-    query.prepare( "insert into Teamservers (ProfileName, Host, Port, User, Password) values(:ProfileName, :Host, :Port, :User, :Password)" );
+    qint64 timestamp = QDateTime::currentMSecsSinceEpoch();
+
+    query.prepare( "insert into Teamservers (ProfileName, Host, Port, User, Password,TimeStamp) values(:ProfileName, :Host, :Port, :User, :Password,:TimeStamp)" );
 
     query.bindValue( ":ProfileName", connection.Name.toStdString().c_str() );
     query.bindValue( ":Host",        connection.Host.toStdString().c_str() );
     query.bindValue( ":Port",        connection.Port.toStdString().c_str() );
     query.bindValue( ":User",        connection.User.toStdString().c_str() );
     query.bindValue( ":Password",    connection.Password.toStdString().c_str() );
+    query.bindValue(":TimeStamp", timestamp);
 
     /* print error */
     if ( ! ( success = query.exec() ) ) {
@@ -67,7 +70,7 @@ vector<Util::ConnectionInfo> HavocSpace::DBManager::listTeamservers()
     auto query          = QSqlQuery();
     auto TeamserverList = vector<Util::ConnectionInfo>();
 
-    query.prepare( "select * from Teamservers" );
+    query.prepare( "select * from Teamservers order by TimeStamp desc" );
 
     if ( ! query.exec() ) {
         spdlog::error( "[DB] Error while query teamserver list: {}", query.lastError().text().toStdString() );
