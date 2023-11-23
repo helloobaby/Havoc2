@@ -328,7 +328,7 @@ void UserInterface::Widgets::ListenersTable::ListenerRemove( QString ListenerNam
 
     if ( ! ListenerName.isEmpty() )
     {
-        if ( tableWidget->rowCount() > 0 )
+        if (tableWidget->rowCount() > 0 )
         {
             for ( int i = 0; i < tableWidget->rowCount(); i++ )
             {

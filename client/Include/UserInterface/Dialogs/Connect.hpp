@@ -49,6 +49,7 @@ public:
     void setupUi( QDialog* Form );
     Util::ConnectionInfo StartDialog( bool FromAction );
     void passDB( HavocNamespace::HavocSpace::DBManager* db );
+    HavocNamespace::HavocSpace::DBManager* getDB();
 
 private slots:
             void onButton_Connect();

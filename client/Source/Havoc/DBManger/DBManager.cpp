@@ -45,7 +45,8 @@ bool DBManager::createNewDatabase()
         "\"Host\" TEXT, "
         "\"Port\" INTEGER, "
         "\"User\" TEXT, "
-        "\"Password\" TEXT "
+        "\"Password\" TEXT,"
+        "\"TimeStamp\" INTEGER"
         ");"
     );
     if ( ! query.exec() ) {
