@@ -17,7 +17,7 @@ var (
 
 	HavocCli = &cobra.Command{
 		Use:          "havoc",
-		Short:        fmt.Sprintf("Havoc Framework [Version: %v] [CodeName: %v]", VersionNumber, VersionName),
+		Short:        "Havoc.Cli.Short",
 		SilenceUsage: true,
 		RunE:         teamserverFunc,
 	}

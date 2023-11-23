@@ -144,6 +144,7 @@ DLLEXPORT VOID KaynLoader( LPVOID lpParameter )
     }
 }
 
+// find entrypoint loop
 NAKED LPVOID KaynCaller( PVOID StartAddress )
 {
     asm(

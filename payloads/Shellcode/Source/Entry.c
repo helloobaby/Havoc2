@@ -2,6 +2,13 @@
 #include <Win32.h>
 #include <ntdef.h>
 
+#define MAKEWORD(a,b) ((WORD) (((BYTE) (((DWORD_PTR) (a)) & 0xff)) | ((WORD) ((BYTE) (((DWORD_PTR) (b)) & 0xff))) << 8))
+#define MAKELONG(a, b) ((LONG) (((WORD) (((DWORD_PTR) (a)) & 0xffff)) | ((DWORD) ((WORD) (((DWORD_PTR) (b)) & 0xffff))) << 16))
+#define LOWORD(l) ((WORD) (((DWORD_PTR) (l)) & 0xffff))
+#define HIWORD(l) ((WORD) ((((DWORD_PTR) (l)) >> 16) & 0xffff))
+#define LOBYTE(w) ((BYTE) (((DWORD_PTR) (w)) & 0xff))
+#define HIBYTE(w) ((BYTE) ((((DWORD_PTR) (w)) >> 8) & 0xff))
+
 #ifdef _WIN64
 #define IMAGE_REL_TYPE IMAGE_REL_BASED_DIR64
 #else
@@ -25,6 +32,7 @@ SEC( text, B ) VOID Entry( VOID )
     KAYN_ARGS               KaynArgs        = { 0 };
 
     // 0. First we need to get our own image base
+    
     KaynLibraryLdr          = KaynCaller();
     Instance.Modules.Ntdll  = LdrModulePeb( NTDLL_HASH );
 
@@ -115,10 +123,15 @@ VOID KaynLdrReloc( PVOID KaynImage, PVOID ImageBase, PVOID BaseRelocDir, DWORD K
         {
             if ( Reloc->type == IMAGE_REL_TYPE )
                 *( ULONG_PTR* ) ( U_PTR( KaynImage ) + pImageBR->VirtualAddress + Reloc->offset - KHdrSize ) += ( ULONG_PTR ) OffsetIB;
-
+            //https://github.com/abhisek/Pe-Loader-Sample/blob/master/src/PeLdr.cpp
+            else if(Reloc->type == IMAGE_REL_BASED_HIGH){
+                *( WORD* ) ( U_PTR( KaynImage ) + pImageBR->VirtualAddress + Reloc->offset - KHdrSize ) += HIWORD(OffsetIB);
+            }
+            else if(Reloc->type == IMAGE_REL_BASED_LOW){
+                *( WORD* ) ( U_PTR( KaynImage ) + pImageBR->VirtualAddress + Reloc->offset - KHdrSize ) += LOWORD(OffsetIB);
+            }
             else if ( Reloc->type != IMAGE_REL_BASED_ABSOLUTE )
-                __debugbreak(); // TODO: handle this error
-
+                __debugbreak(); // Unknown relocation type
             Reloc++;
         }
 

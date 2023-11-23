@@ -20,10 +20,10 @@ x64: clean
 	@ nasm -f win64 Source/Asm/x64/Asm.s -o Bin/Asm.x64.o
 	@ $(CCX64) Source/*.c Bin/Asm.x64.o -o $(EXECUTABLE_X64) $(CFLAGS) $(LFLAGS) -IInclude -masm=intel
 
-	@ echo "[*] Extract shellcode: $(RAWBINARY_X64)"
-	@ python3 Scripts/extract.py -f $(EXECUTABLE_X64) -o $(RAWBINARY_X64)
 
-	@ rm $(EXECUTABLE_X64)
+#	@ echo "[*] Extract shellcode from executable file: $(RAWBINARY_X64)"
+#	@ python3 Scripts/extract.py -f $(EXECUTABLE_X64) -o $(RAWBINARY_X64)
+#	@ rm $(EXECUTABLE_X64)
 
 x86: clean
 	@ echo "[*] Compile x86 executable..."
@@ -31,7 +31,7 @@ x86: clean
 	@ nasm -f win32 Source/Asm/x86/Asm.s -o Bin/Asm.x86.o
 	@ $(CCX86) Source/*.c Bin/Asm.x86.o -o $(EXECUTABLE_X86) $(CFLAGS) $(LFLAGS) -IInclude -masm=intel
 
-	@ echo "[*] Extract shellcode: $(RAWBINARY_X86)"
+	@ echo "[*] Extract shellcode from executable file: $(RAWBINARY_X86)"
 	@ python3 Scripts/extract.py -f $(EXECUTABLE_X86) -o $(RAWBINARY_X86)
 
 	@ rm $(EXECUTABLE_X86)
