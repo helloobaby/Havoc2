@@ -49,6 +49,7 @@ func (t *Teamserver) SetServerFlags(flags TeamserverFlags) {
 }
 
 func (t *Teamserver) Start() {
+	logger.FunctionTrace()
 	logger.Debug("Starting teamserver...")
 	var (
 		ServerFinished      chan bool

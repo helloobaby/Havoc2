@@ -1,7 +1,7 @@
 #!/bin/bash
 # rm /tmp/mingw-musl-32.tgz;rm /tmp/mingw-musl-64.tgz
 # 
-if [ ! -d "dir/x86_64-w64-mingw32-cross" ]; then
+if [ ! -d "data/x86_64-w64-mingw32-cross" ]; then
 	sudo apt -qq --yes install golang-go nasm mingw-w64 wget >/dev/null 2>&1
 
 	if [ ! -d "data" ]; then
