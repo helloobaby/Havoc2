@@ -49,7 +49,6 @@ func (t *Teamserver) SetServerFlags(flags TeamserverFlags) {
 }
 
 func (t *Teamserver) Start() {
-	logger.FunctionTrace()
 	logger.Debug("Starting teamserver...")
 	var (
 		ServerFinished      chan bool
@@ -212,6 +211,7 @@ func (t *Teamserver) Start() {
 
 	/* now load up our db or start a new one if none exist */
 	DBPath := t.DB.Path()
+	logger.Info("Create DB Path -> " + DBPath)
 	if t.DB, err = db.DatabaseNew(TeamserverPath + "/" + DBPath); err != nil {
 		logger.SetStdOut(os.Stderr)
 		logger.Error("Failed to create or open a database: " + err.Error())
@@ -225,6 +225,7 @@ func (t *Teamserver) Start() {
 	}
 
 	ListenerCount = t.DB.ListenerCount()
+	logger.Debug("current db listener count -> " + strconv.Itoa(ListenerCount))
 
 	/* start listeners from the specified yaotl profile */
 	if t.Profile.Config.Listener != nil {

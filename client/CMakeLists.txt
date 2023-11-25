@@ -168,11 +168,21 @@ set(
 add_executable( ${PROJECT_NAME} ${HAVOC_INCLUDE} ${HAVOC_SOURCE} ${HAVOC_UTIL} ${APP_ICON_RESOURCE_WINDOWS} Data/Havoc.rc )
 add_definitions( -DQT_NO_DEBUG_OUTPUT )
 
-target_link_libraries(
-    ${PROJECT_NAME}
-    ${REQUIRED_LIBS_QUALIFIED}
-    #${PYTHON_LIBRARIES}
-	Python3::Python
-    spdlog::spdlog
-    spdlog::spdlog_header_only
-)
+IF(UNIX)
+  target_link_libraries(
+      ${PROJECT_NAME}
+      ${REQUIRED_LIBS_QUALIFIED}
+      #${PYTHON_LIBRARIES}
+      spdlog::spdlog
+      spdlog::spdlog_header_only
+  )
+ELSE()
+  target_link_libraries(
+      ${PROJECT_NAME}
+      ${REQUIRED_LIBS_QUALIFIED}
+      #${PYTHON_LIBRARIES}
+      Python3::Python
+      spdlog::spdlog
+      spdlog::spdlog_header_only
+  )
+ENDIF()
