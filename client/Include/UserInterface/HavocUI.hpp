@@ -30,7 +30,6 @@ class HavocNamespace::UserInterface::HavocUI : public QMainWindow
 public:
     QWidget*               centralwidget                 = {};
     QAction*               actionNew_Client              = {};
-    QAction*               actionChat                    = {};
     QAction*               actionPreferences             = {};
     QAction*               actionExit                    = {};
     QAction*               actionTeamserver              = {};
@@ -43,7 +42,6 @@ public:
     QAction*               actionGithub_Repository       = {};
     QAction*               actionListeners               = {};
     QAction*               actionSessionsTable           = {};
-    QAction*               actionSessionsGraph           = {};
     QAction*               actionLogs                    = {};
     QAction*               actionLoot                    = {};
     QGridLayout*           gridLayout                    = {};
@@ -54,7 +52,6 @@ public:
     QMenu*                 menuView                      = {};
     QMenu*                 menuAttack                    = {};
     QMenu*                 menuScripts                   = {};
-    QMenu*                 menuHelp                      = {};
     QMenu*                 MenuSession                   = {};
     QStatusBar*            statusbar                     = {};
     Dialogs::Connect*      ConnectDialog                 = {};

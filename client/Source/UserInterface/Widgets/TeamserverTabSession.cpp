@@ -104,11 +104,6 @@ void HavocNamespace::UserInterface::Widgets::TeamserverTabSession::setupUi( QWid
 
     gridLayout->addWidget(splitter_TopBot, 0, 0, 1, 1);
 
-    TeamserverChat = new UserInterface::Widgets::Chat;
-    TeamserverChat->TeamserverName = HavocX::Teamserver.Name;
-    TeamserverChat->setupUi( new QWidget );
-
-    NewBottomTab( TeamserverChat->ChatWidget, "Teamserver Chat", ":/icons/users" );
     tabWidget->setCurrentIndex( 0 );
     tabWidget->setMovable( false );
 

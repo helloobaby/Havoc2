@@ -498,15 +498,7 @@ bool Packager::DispatchChat( Util::Packager::PPackage Package)
     switch (Package->Body.SubEvent) {
         case Util::Packager::Chat::NewMessage:
         {
-            auto TeamserverUser = HavocX::Teamserver.User;
-
-            for ( const auto& e : Package->Body.Info.toStdMap() )
-            {
-                auto Time = QString( Package->Head.Time.c_str() );
-
-                HavocX::Teamserver.TabSession->TeamserverChat->AddUserMessage( Time, string( e.first ).c_str(), QByteArray::fromBase64( string( e.second ).c_str() ) );
-            }
-            break;
+        assert(0);
         }
 
         case Util::Packager::Chat::NewListener:
