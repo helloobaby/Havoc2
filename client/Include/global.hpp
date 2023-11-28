@@ -210,7 +210,11 @@ namespace HavocNamespace
 
     namespace Util
     {
+#ifdef _MSC_VER
     typedef struct cSessionItem
+#else
+    typedef struct SessionItem
+#endif
         {
 
             QString TeamserverID;
