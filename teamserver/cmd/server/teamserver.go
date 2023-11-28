@@ -102,6 +102,8 @@ func (t *Teamserver) Start() {
 				Authenticated: false,
 			})
 
+		logger.Debug("client : " + WebSocket.RemoteAddr().String())
+
 		// Handle connections in a new goroutine.
 		go t.handleRequest(ClientID)
 	})
@@ -191,20 +193,20 @@ func (t *Teamserver) Start() {
 	// start teamserver service
 	if t.Profile.Config.Service != nil {
 
-    logger.Warn("Service api has been disabled for this version.")
+		logger.Warn("Service api has been disabled for this version.")
 
-    /*
-		t.Service = service.NewService(t.Server.Engine)
-		t.Service.Teamserver = t
-		t.Service.Data.ServerAgents = &t.Agents
-		t.Service.Config = *t.Profile.Config.Service
+		/*
+			t.Service = service.NewService(t.Server.Engine)
+			t.Service.Teamserver = t
+			t.Service.Data.ServerAgents = &t.Agents
+			t.Service.Config = *t.Profile.Config.Service
 
-		if len(t.Service.Config.Endpoint) > 0 {
-			t.Service.Start()
-			logger.Info(fmt.Sprintf("%v starting service handle on %v", "["+colors.BoldWhite("SERVICE")+"]", colors.BlueUnderline(TeamserverWs+"/"+t.Service.Config.Endpoint)))
-		} else {
-			logger.Error("Teamserver service error: Endpoint not specified")
-		}*/
+			if len(t.Service.Config.Endpoint) > 0 {
+				t.Service.Start()
+				logger.Info(fmt.Sprintf("%v starting service handle on %v", "["+colors.BoldWhite("SERVICE")+"]", colors.BlueUnderline(TeamserverWs+"/"+t.Service.Config.Endpoint)))
+			} else {
+				logger.Error("Teamserver service error: Endpoint not specified")
+			}*/
 	}
 
 	/* now load up our db or start a new one if none exist */
