@@ -9,7 +9,8 @@ set( CMAKE_AUTOUIC ON )
 
 #set( CMAKE_CPP_COMPILER /usr/bin/x86_64-w64-mingw32-g++ )
 #set( CMAKE_C_COMPILER /usr/bin/x86_64-w64-mingw32-gcc )
-#set( CMAKE_CXX_FLAGS "-fpermissive" )
+# for gcc13
+set( CMAKE_CXX_FLAGS "-fpermissive" )
 
 set( QT_VERSION 5 )
 set( REQUIRED_LIBS Core Gui Widgets Network WebSockets Sql )
@@ -172,7 +173,7 @@ IF(UNIX)
   target_link_libraries(
       ${PROJECT_NAME}
       ${REQUIRED_LIBS_QUALIFIED}
-      #${PYTHON_LIBRARIES}
+      ${PYTHON_LIBRARIES}
       spdlog::spdlog
       spdlog::spdlog_header_only
   )

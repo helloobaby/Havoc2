@@ -213,7 +213,7 @@ namespace HavocNamespace
 #ifdef _MSC_VER
     typedef struct cSessionItem
 #else
-    typedef struct SessionItem
+    typedef struct
 #endif
         {
 
