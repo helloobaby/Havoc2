@@ -31,7 +31,6 @@ public:
     QTabWidget*  tabWidgetSmall          = {};
 
 public:
-    Widgets::Chat*                    TeamserverChat      = {};
     Teamserver*                       Teamserver          = {};
     Widgets::SessionTable*            SessionTableWidget  = {};
     GraphWidget*                      SessionGraphWidget  = {};

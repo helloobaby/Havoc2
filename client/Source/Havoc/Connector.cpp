@@ -74,11 +74,15 @@ Connector::Connector( Util::ConnectionInfo* ConnectionInfo )
         Havoc::Exit();
     } );
 
+    //
     // Windows上构建的时候没有Qt版本对应的Openssl就会报这个错误
+    // /havoc/路由改了也会
+    // 
       QObject::connect(
         Socket, QOverload<QAbstractSocket::SocketError>::of(&QWebSocket::error),
         [=](QAbstractSocket::SocketError error) { 
-             MessageBox("Teamserver error", "Connect error",QMessageBox::Critical);
+             MessageBox("Teamserver error", QString("Connect error")+QString(error) , 
+                     QMessageBox::Critical);
         }
       );
     
