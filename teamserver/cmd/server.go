@@ -7,7 +7,6 @@ import (
 
 	"Havoc/cmd/server"
 	"Havoc/pkg/colors"
-	"Havoc/pkg/events"
 	"Havoc/pkg/logger"
 	"Havoc/pkg/logr"
 
@@ -44,10 +43,6 @@ var CobraServer = &cobra.Command{
 		}
 
 		logr.LogrInstance.LogrSendText = func(text string) {
-			var pk = events.Teamserver.Logger(text)
-
-			Server.EventAppend(pk)
-			Server.EventBroadcast("", pk)
 		}
 
 		logr.LogrInstance.ServerStdOutInit()

@@ -579,6 +579,8 @@ func (t *Teamserver) handleRequest(id string) {
 		err := t.SendEvent(id, events.Authenticated(true))
 		if err != nil {
 			logger.Error("client (" + colors.Red(id) + ") error while sending authenticate message:" + colors.Red(err))
+		} else {
+			logger.Info("send package Packager::InitConnection::Type")
 		}
 	}
 
