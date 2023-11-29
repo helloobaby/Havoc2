@@ -28,9 +28,10 @@ Connector::Connector( Util::ConnectionInfo* ConnectionInfo )
 
         if ( Package != nullptr )
         {
-            if ( ! Packager )
-                return;
-
+          if (!Packager) {
+            spdlog::error("DecodePackage failed");
+            return;
+          }
             Packager->DispatchPackage( Package );
 
             return;

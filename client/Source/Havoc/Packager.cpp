@@ -925,6 +925,7 @@ bool Packager::DispatchService( Util::Packager::PPackage Package )
 
 bool Packager::DispatchTeamserver( Util::Packager::PPackage Package )
 {
+  assert(0 && "Already delete this msg");
     switch ( Package->Body.SubEvent )
     {
         case Util::Packager::Teamserver::Logger:

@@ -49,9 +49,6 @@ void HavocNamespace::UserInterface::HavocUI::setupUi(QMainWindow *Havoc)
     actionExit = new QAction( HavocWindow );
     actionExit->setObjectName( QString::fromUtf8( "actionExit" ) );
 
-    actionTeamserver = new QAction( HavocWindow );
-    actionTeamserver->setObjectName( QString::fromUtf8( "actionTeamserver" ) );
-
     actionGeneratePayload = new QAction( HavocWindow );
     actionGeneratePayload->setObjectName( QString::fromUtf8( "actionGeneratePayload" ) );
 
@@ -81,9 +78,6 @@ void HavocNamespace::UserInterface::HavocUI::setupUi(QMainWindow *Havoc)
 
     actionSessionsTable = new QAction( HavocWindow );
     actionSessionsTable->setObjectName( QString::fromUtf8( "actionSessionsTable" ) );
-
-    actionLogs = new QAction( HavocWindow );
-    actionLogs->setObjectName( QString::fromUtf8( "actionLogs" ) );
 
     actionLoot = new QAction( HavocWindow );
     actionLoot->setObjectName( QString::fromUtf8( "actionLoot" ) );
@@ -121,7 +115,6 @@ void HavocNamespace::UserInterface::HavocUI::setupUi(QMainWindow *Havoc)
     menuHavoc   = new QMenu( menubar );
     menuView    = new QMenu( menubar );
     menuAttack  = new QMenu( menubar );
-    MenuSession = new QMenu( menubar );
     menuScripts = new QMenu( menubar );
 
     menuHavoc->setObjectName( QString::fromUtf8( "menuHavoc" ) );
@@ -148,16 +141,12 @@ void HavocNamespace::UserInterface::HavocUI::setupUi(QMainWindow *Havoc)
     menuHavoc->addSeparator();
     menuHavoc->addAction( actionExit );
 
-    MenuSession->addAction( actionSessionsTable );
-
     menuView->addAction( actionListeners );
     menuView->addSeparator();
-    menuView->addAction( MenuSession->menuAction() );
     menuView->addSeparator();
     menuView->addAction( actionLoot );
     menuView->addSeparator();
     menuView->addAction( actionLogs );
-    menuView->addAction( actionTeamserver );
     menuAttack->addAction( actionGeneratePayload );
 
     menuScripts->addAction( actionLoad_Script );
@@ -318,7 +307,6 @@ void HavocNamespace::UserInterface::HavocUI::retranslateUi( QMainWindow* Havoc )
 
     actionNew_Client->setText( "New Client" );
     actionExit->setText( "Exit" );
-    actionTeamserver->setText( "Teamserver" );
     actionGeneratePayload->setText( "Payload" );
     actionLoad_Script->setText(  "Scripts Manager" );
     actionPythonConsole->setText( "Script Console" );
@@ -328,13 +316,11 @@ void HavocNamespace::UserInterface::HavocUI::retranslateUi( QMainWindow* Havoc )
     actionGithub_Repository->setText( "Github Repository" );
     actionListeners->setText( "Listeners" );
     actionSessionsTable->setText( "Table" );
-    actionLogs->setText( "Event Viewer" );
     actionLoot->setText( "Loot" );
     menuHavoc->setTitle( "Havoc" );
     menuView->setTitle( "View" );
     menuAttack->setTitle( "Attack" );
     menuScripts->setTitle( "Scripts" );
-    MenuSession->setTitle( "Session View" );
 
     HavocWindow->setFocus();
     HavocWindow->showMaximized();
@@ -375,18 +361,6 @@ void HavocNamespace::UserInterface::HavocUI::ConnectEvents()
         NewBottomTab(
             Teamserver->ListenerTableWidget->ListenerWidget,
             "Listeners"
-        );
-    } );
-
-    QMainWindow::connect( actionTeamserver, &QAction::triggered, this, [&](){
-        if ( HavocX::Teamserver.TabSession->Teamserver == nullptr ) {
-            HavocX::Teamserver.TabSession->Teamserver = new Teamserver;
-            HavocX::Teamserver.TabSession->Teamserver->setupUi( new QDialog );
-        }
-
-        NewBottomTab(
-            HavocX::Teamserver.TabSession->Teamserver->TeamserverWidget,
-            "Teamserver"
         );
     } );
 

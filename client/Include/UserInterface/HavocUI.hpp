@@ -32,7 +32,6 @@ public:
     QAction*               actionNew_Client              = {};
     QAction*               actionPreferences             = {};
     QAction*               actionExit                    = {};
-    QAction*               actionTeamserver              = {};
     QAction*               actionGeneratePayload         = {};
     QAction*               actionLoad_Script             = {};
     QAction*               actionPythonConsole           = {};
@@ -52,7 +51,6 @@ public:
     QMenu*                 menuView                      = {};
     QMenu*                 menuAttack                    = {};
     QMenu*                 menuScripts                   = {};
-    QMenu*                 MenuSession                   = {};
     QStatusBar*            statusbar                     = {};
     Dialogs::Connect*      ConnectDialog                 = {};
     About*                 AboutDialog                   = {};

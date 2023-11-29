@@ -10,7 +10,9 @@ set( CMAKE_AUTOUIC ON )
 #set( CMAKE_CPP_COMPILER /usr/bin/x86_64-w64-mingw32-g++ )
 #set( CMAKE_C_COMPILER /usr/bin/x86_64-w64-mingw32-gcc )
 # for gcc13
+if(UNIX)
 set( CMAKE_CXX_FLAGS "-fpermissive" )
+endif()
 
 set( QT_VERSION 5 )
 set( REQUIRED_LIBS Core Gui Widgets Network WebSockets Sql )
