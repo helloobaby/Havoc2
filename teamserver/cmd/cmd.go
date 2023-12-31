@@ -1,11 +1,9 @@
 package cmd
 
 import (
-	"fmt"
 	"os"
 
 	"Havoc/cmd/server"
-	"Havoc/pkg/colors"
 
 	"github.com/spf13/cobra"
 )
@@ -45,7 +43,6 @@ func init() {
 }
 
 func teamserverFunc(cmd *cobra.Command, args []string) error {
-	startMenu()
 
 	if len(os.Args) <= 2 {
 		err := cmd.Help()
@@ -56,11 +53,4 @@ func teamserverFunc(cmd *cobra.Command, args []string) error {
 	}
 
 	return nil
-}
-
-func startMenu() {
-	fmt.Println(colors.Red("              _______           _______  _______ \n    │\\     /│(  ___  )│\\     /│(  ___  )(  ____ \\\n    │ )   ( ││ (   ) ││ )   ( ││ (   ) ││ (    \\/\n    │ (___) ││ (___) ││ │   │ ││ │   │ ││ │      \n    │  ___  ││  ___  │( (   ) )│ │   │ ││ │      \n    │ (   ) ││ (   ) │ \\ \\_/ / │ │   │ ││ │      \n    │ )   ( ││ )   ( │  \\   /  │ (___) ││ (____/\\\n    │/     \\││/     \\│   \\_/   (_______)(_______/"))
-	fmt.Println()
-	fmt.Println("  	", colors.Red("pwn"), "and", colors.Blue("elevate"), "until it's done")
-	fmt.Println()
 }

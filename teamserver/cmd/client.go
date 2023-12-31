@@ -1,9 +1,10 @@
 package cmd
 
 import (
-	"github.com/spf13/cobra"
 	"os"
 	"os/exec"
+
+	"github.com/spf13/cobra"
 )
 
 var CobraClient = &cobra.Command{
@@ -11,7 +12,6 @@ var CobraClient = &cobra.Command{
 	Short:        "client command",
 	SilenceUsage: true,
 	RunE: func(cmd *cobra.Command, args []string) error {
-		startMenu()
 
 		client := exec.Command("client/Havoc", args...)
 		client.Stdout = os.Stdout

@@ -47,8 +47,6 @@ var CobraServer = &cobra.Command{
 
 		logr.LogrInstance.ServerStdOutInit()
 
-		startMenu()
-
 		if flags.Server.Debug {
 			logger.SetDebug(true)
 			logger.Debug("Debug mode enabled")
