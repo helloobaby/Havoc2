@@ -349,7 +349,6 @@ NewListener::NewListener( QDialog* Dialog )
         formLayout_Hosts->setWidget( HostsData.size(), QFormLayout::FieldRole, Item );
 
         HostsData.push_back( Item );
-        ListenerDialog->resize( 550, 500 );
     } );
 
     QObject::connect( ButtonHostsGroupClear, &QPushButton::clicked, this, [&]()

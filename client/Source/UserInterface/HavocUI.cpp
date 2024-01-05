@@ -303,7 +303,7 @@ void HavocNamespace::UserInterface::HavocUI::UpdateSessionsHealth()
 
 void HavocNamespace::UserInterface::HavocUI::retranslateUi( QMainWindow* Havoc ) const
 {
-    Havoc->setWindowTitle( "Havoc" );
+    Havoc->setWindowTitle( "CobaltStrike" );
 
     actionNew_Client->setText( "New Client" );
     actionExit->setText( "Exit" );

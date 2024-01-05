@@ -25,7 +25,7 @@ DBManager::DBManager( const QString& FilePath, int OpenFlag )
             }
         }
     } else {
-        spdlog::error( "[DB] Failed to open database" );
+        spdlog::error( "[DB] Failed to open database , ./data directory exist?" );
     }
 }
 
