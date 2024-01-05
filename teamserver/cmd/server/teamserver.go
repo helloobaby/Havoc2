@@ -466,8 +466,10 @@ func (t *Teamserver) Start() {
 	}
 
 	// load all existing Agents from the DB
+	logger.Debug("load all existing Agents from the DB")
 	Agents := t.DB.AgentAll()
 	for _, Agent := range Agents {
+		logger.Debug("existed agent " + Agent.NameID + " " + Agent.Info.Username + " " + Agent.Info.ProcessName)
 		t.AgentAdd(Agent)
 	}
 
@@ -525,6 +527,7 @@ func (t *Teamserver) handleRequest(id string) {
 		return
 	}
 
+	// 客户端传来的package
 	pk := client.Packager.CreatePackage(string(NewClient))
 
 	if t.Profile != nil {

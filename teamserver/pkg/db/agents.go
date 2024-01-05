@@ -1,10 +1,10 @@
 package db
 
 import (
+	"encoding/base64"
 	"errors"
 	"fmt"
 	"strconv"
-	"encoding/base64"
 
 	"Havoc/pkg/agent"
 )
@@ -91,6 +91,9 @@ func (db *DB) AgentUpdate(agent *agent.Agent) error {
 
 	/* check if agent already exists */
 	if db.AgentExist(int(AgentID)) == false {
+		// logger.Debug("Agent " + agent.NameID + "not found , try add it ")
+		// db.AgentAdd(agent)
+		// return nil
 		return errors.New("Agent does not exist")
 	}
 
@@ -207,12 +210,11 @@ func (db *DB) AgentRemove(AgentID int) error {
 	return nil
 }
 
-
 func (db *DB) AgentAll() []*agent.Agent {
 
 	var Agents []*agent.Agent
 
-	query, err := db.db.Query("SELECT AgentID, Active, Reason, AESKey, AESIv, Hostname, Username, DomainName, ExternalIP, InternalIP, ProcessName, BaseAddress, ProcessPID, ProcessTID, ProcessPPID, ProcessArch, Elevated, OSVersion, OSArch, SleepDelay, SleepJitter, KillDate, WorkingHours, FirstCallIn, LastCallIn FROM TS_Agents WHERE Active = 1")
+	query, err := db.db.Query("SELECT AgentID, Active, Reason, AESKey, AESIv, Hostname, Username, DomainName, ExternalIP, InternalIP, ProcessName, BaseAddress, ProcessPID, ProcessTID, ProcessPPID, ProcessArch, Elevated, OSVersion, OSArch, SleepDelay, SleepJitter, KillDate, WorkingHours, FirstCallIn, LastCallIn FROM TS_Agents")
 	if err != nil {
 		return nil
 	}
@@ -221,31 +223,31 @@ func (db *DB) AgentAll() []*agent.Agent {
 	for query.Next() {
 
 		var (
-			AgentID int
-			Active int
-			Reason string
-			AESKey string
-			AESIv string
-			Hostname string
-			Username string
-			DomainName string
-			ExternalIP string
-			InternalIP string
-			ProcessName string
-			BaseAddress int64
-			ProcessPID int
-			ProcessTID int
-			ProcessPPID int
-			ProcessArch string
-			Elevated string
-			OSVersion string
-			OSArch string
-			SleepDelay int
-			SleepJitter int
-			KillDate int64
+			AgentID      int
+			Active       int
+			Reason       string
+			AESKey       string
+			AESIv        string
+			Hostname     string
+			Username     string
+			DomainName   string
+			ExternalIP   string
+			InternalIP   string
+			ProcessName  string
+			BaseAddress  int64
+			ProcessPID   int
+			ProcessTID   int
+			ProcessPPID  int
+			ProcessArch  string
+			Elevated     string
+			OSVersion    string
+			OSArch       string
+			SleepDelay   int
+			SleepJitter  int
+			KillDate     int64
 			WorkingHours int32
-			FirstCallIn string
-			LastCallIn string
+			FirstCallIn  string
+			LastCallIn   string
 		)
 
 		/* read the selected items */
@@ -257,7 +259,7 @@ func (db *DB) AgentAll() []*agent.Agent {
 		}
 
 		BytesAESKey, _ := base64.StdEncoding.DecodeString(AESKey)
-		BytesAESIv,  _ := base64.StdEncoding.DecodeString(AESIv)
+		BytesAESIv, _ := base64.StdEncoding.DecodeString(AESIv)
 
 		var Agent = &agent.Agent{
 			Encryption: struct {
@@ -275,32 +277,32 @@ func (db *DB) AgentAll() []*agent.Agent {
 			Info: new(agent.AgentInfo),
 		}
 
-		Agent.NameID            = fmt.Sprintf("%08x", AgentID)
-		Agent.SessionDir        = ""
-		Agent.BackgroundCheck   = false
-		Agent.TaskedOnce        = true
-		Agent.Info.MagicValue   = agent.DEMON_MAGIC_VALUE
-		Agent.Info.Listener     = nil
-		Agent.Info.Hostname     = Hostname
-		Agent.Info.Username     = Username
-		Agent.Info.DomainName   = DomainName
-		Agent.Info.ExternalIP   = ExternalIP
-		Agent.Info.InternalIP   = InternalIP
-		Agent.Info.ProcessName  = ProcessName
-		Agent.Info.BaseAddress  = BaseAddress
-		Agent.Info.ProcessPID   = ProcessPID
-		Agent.Info.ProcessTID   = ProcessTID
-		Agent.Info.ProcessPPID  = ProcessPPID
-		Agent.Info.ProcessArch  = ProcessArch
-		Agent.Info.Elevated     = Elevated
-		Agent.Info.OSVersion    = OSVersion
-		Agent.Info.OSArch       = OSArch
-		Agent.Info.SleepDelay   = SleepDelay
-		Agent.Info.SleepJitter  = SleepJitter
-		Agent.Info.KillDate     = KillDate
+		Agent.NameID = fmt.Sprintf("%08x", AgentID)
+		Agent.SessionDir = ""
+		Agent.BackgroundCheck = false
+		Agent.TaskedOnce = true
+		Agent.Info.MagicValue = agent.DEMON_MAGIC_VALUE
+		Agent.Info.Listener = nil
+		Agent.Info.Hostname = Hostname
+		Agent.Info.Username = Username
+		Agent.Info.DomainName = DomainName
+		Agent.Info.ExternalIP = ExternalIP
+		Agent.Info.InternalIP = InternalIP
+		Agent.Info.ProcessName = ProcessName
+		Agent.Info.BaseAddress = BaseAddress
+		Agent.Info.ProcessPID = ProcessPID
+		Agent.Info.ProcessTID = ProcessTID
+		Agent.Info.ProcessPPID = ProcessPPID
+		Agent.Info.ProcessArch = ProcessArch
+		Agent.Info.Elevated = Elevated
+		Agent.Info.OSVersion = OSVersion
+		Agent.Info.OSArch = OSArch
+		Agent.Info.SleepDelay = SleepDelay
+		Agent.Info.SleepJitter = SleepJitter
+		Agent.Info.KillDate = KillDate
 		Agent.Info.WorkingHours = WorkingHours
-		Agent.Info.FirstCallIn  = FirstCallIn
-		Agent.Info.LastCallIn   = LastCallIn
+		Agent.Info.FirstCallIn = FirstCallIn
+		Agent.Info.LastCallIn = LastCallIn
 
 		/* append collected agent to agent array */
 		Agents = append(Agents, Agent)

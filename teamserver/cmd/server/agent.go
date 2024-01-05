@@ -3,10 +3,10 @@ package server
 import (
 	"Havoc/pkg/logger"
 	"encoding/json"
-	"math/rand"
-	"time"
 	"fmt"
+	"math/rand"
 	"strconv"
+	"time"
 
 	"Havoc/pkg/agent"
 	"Havoc/pkg/events"
@@ -16,7 +16,7 @@ import (
 func (t *Teamserver) AgentUpdate(agent *agent.Agent) {
 	err := t.DB.AgentUpdate(agent)
 	if err != nil {
-		logger.Error("Could not update agent: " + err.Error())
+		logger.Warn("Could not update agent: " + err.Error())
 	}
 }
 
@@ -35,7 +35,7 @@ func (t *Teamserver) LinksOf(Agent *agent.Agent) []int {
 
 func (t *Teamserver) LinkAdd(ParentAgent *agent.Agent, LinkAgent *agent.Agent) error {
 	var ParentAgentID, _ = strconv.ParseInt(ParentAgent.NameID, 16, 64)
-	var LinkAgentID,   _ = strconv.ParseInt(LinkAgent.NameID, 16, 64)
+	var LinkAgentID, _ = strconv.ParseInt(LinkAgent.NameID, 16, 64)
 
 	err := t.DB.LinkAdd(int(ParentAgentID), int(LinkAgentID))
 	if err != nil {
@@ -47,7 +47,7 @@ func (t *Teamserver) LinkAdd(ParentAgent *agent.Agent, LinkAgent *agent.Agent) e
 
 func (t *Teamserver) LinkRemove(ParentAgent *agent.Agent, LinkAgent *agent.Agent) error {
 	var ParentAgentID, _ = strconv.ParseInt(ParentAgent.NameID, 16, 64)
-	var LinkAgentID,   _ = strconv.ParseInt(LinkAgent.NameID, 16, 64)
+	var LinkAgentID, _ = strconv.ParseInt(LinkAgent.NameID, 16, 64)
 
 	err := t.DB.LinkRemove(int(ParentAgentID), int(LinkAgentID))
 	if err != nil {
@@ -124,11 +124,11 @@ func (t *Teamserver) AgentInstance(AgentID int) *agent.Agent {
 func (t *Teamserver) AgentLastTimeCalled(AgentID string, Time string, LastCallback string, Sleep int, Jitter int, KillDate int64, WorkingHours int32) {
 	var (
 		Output = map[string]string{
-			"Diff": Time,
-			"Last": LastCallback,
-			"Sleep": fmt.Sprintf("%d", Sleep),
-			"Jitter": fmt.Sprintf("%d", Jitter),
-			"KillDate": fmt.Sprintf("%d", KillDate),
+			"Diff":         Time,
+			"Last":         LastCallback,
+			"Sleep":        fmt.Sprintf("%d", Sleep),
+			"Jitter":       fmt.Sprintf("%d", Jitter),
+			"KillDate":     fmt.Sprintf("%d", KillDate),
 			"WorkingHours": fmt.Sprintf("%d", WorkingHours),
 		}
 

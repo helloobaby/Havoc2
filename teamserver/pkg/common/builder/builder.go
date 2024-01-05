@@ -447,6 +447,7 @@ func (b *Builder) Build() bool {
 
 	//logger.Debug(CompileCommand)
 	Successful := b.CompileCmd(CompileCommand)
+	logger.Debug("CompileCommand : " + CompileCommand)
 
 	return Successful
 }
@@ -518,7 +519,7 @@ func (b *Builder) Patch(ByteArray []byte) []byte {
 				new := []byte(b.ProfileConfig.ReplaceStringsX64[old])
 				// make sure they are the same lenght
 				if len(new) < len(old) {
-					new = append(new, bytes.Repeat([]byte{0}, len(old) - len(new))...)
+					new = append(new, bytes.Repeat([]byte{0}, len(old)-len(new))...)
 				}
 				if len(new) > len(old) {
 					logger.Error(fmt.Sprintf("invalid replacement rule, new value (%s) can be longer than the old value (%s)", string(new), old))
@@ -539,7 +540,7 @@ func (b *Builder) Patch(ByteArray []byte) []byte {
 				new := []byte(b.ProfileConfig.ReplaceStringsX86[old])
 				// make sure they are the same lenght
 				if len(new) < len(old) {
-					new = append(new, bytes.Repeat([]byte{0}, len(old) - len(new))...)
+					new = append(new, bytes.Repeat([]byte{0}, len(old)-len(new))...)
 				}
 				if len(new) > len(old) {
 					logger.Error(fmt.Sprintf("invalid replacement rule, new value (%s) can be longer than the old value (%s)", string(new), old))

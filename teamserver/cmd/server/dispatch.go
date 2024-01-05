@@ -33,7 +33,7 @@ func (t *Teamserver) DispatchEvent(pk packager.Package) {
 							if val == "Dead" {
 								t.Agents.Agents[i].Active = false
 								t.AgentHasDied(t.Agents.Agents[i])
-							} else if val == "Alive" {
+							} else if val == "Alive" { // 原先agent是存活状态
 								t.Agents.Agents[i].Active = true
 							}
 							t.AgentUpdate(t.Agents.Agents[i])
@@ -44,7 +44,19 @@ func (t *Teamserver) DispatchEvent(pk packager.Package) {
 			}
 
 			break
-
+		case packager.Type.Session.Remove:
+			// 数据库内把这个agent删除
+			var AgentID = pk.Body.Info["AgentID"]
+			logger.Debug("remove session from database, agentid = " + AgentID.(string))
+			AgentID2, err := strconv.ParseInt(AgentID.(string), 16, 32)
+			if err != nil {
+				break
+			}
+			err = t.DB.AgentRemove(int(AgentID2))
+			if err != nil {
+				logger.Warn("remove session from databse failed, agentid = " + AgentID.(string) + "error " + err.Error())
+			}
+			break
 		case packager.Type.Session.Input:
 			var (
 				job       *agent.Job
@@ -634,8 +646,8 @@ func (t *Teamserver) DispatchEvent(pk packager.Package) {
 			break
 
 		case packager.Type.Listener.Remove:
-
 			if val, ok := pk.Body.Info["Name"]; ok {
+				logger.Debug("remove Listener " + val.(string))
 				t.ListenerRemove(val.(string))
 
 				var p = events.Listener.ListenerRemove(val.(string))
@@ -805,7 +817,7 @@ func (t *Teamserver) DispatchEvent(pk packager.Package) {
 
 			break
 		}
-
+	// 生成demon
 	case packager.Type.Gate.Type:
 
 		switch pk.Body.SubEvent {
@@ -851,7 +863,7 @@ func (t *Teamserver) DispatchEvent(pk packager.Package) {
 						Compiler64: t.Settings.Compiler64,
 						Compiler86: t.Settings.Compiler32,
 						Nasm:       t.Settings.Nasm,
-						DebugDev:   t.Flags.Server.DebugDev,
+						DebugDev:   t.Flags.Server.DebugDev, //决定是否开启agent的调试模式
 						SendLogs:   t.Flags.Server.SendLogs,
 					})
 
@@ -914,6 +926,7 @@ func (t *Teamserver) DispatchEvent(pk packager.Package) {
 						PayloadBuilder.SetPatchConfig(t.Profile.Config.Demon.Binary)
 					}
 
+					// 构建Payload
 					if PayloadBuilder.Build() {
 						pal := PayloadBuilder.GetPayloadBytes()
 						if len(pal) > 0 {
