@@ -235,11 +235,6 @@ void UserInterface::Widgets::TeamserverTabSession::handleDemonContextMenu( const
         SessionMenu.addAction( seperator2 );
     }
 
-    if ( Agent.Marked.compare( "Dead" ) != 0 )
-        SessionMenu.addAction( "Mark as Dead" );
-    else
-        SessionMenu.addAction( "Mark as Alive" );
-
     SessionMenu.addAction( ColorMenu.menuAction() );
 
     SessionMenu.addAction( "Export" );
@@ -390,6 +385,7 @@ void UserInterface::Widgets::TeamserverTabSession::handleDemonContextMenu( const
                 {
                     Session.Export();
                 } else if (action->text().compare("Remove") == 0) {
+                  // https://github.com/HavocFramework/Havoc/issues/452
                   QItemSelectionModel* select =
                       SessionTableWidget->SessionTableWidget->selectionModel();
                   QModelIndexList selectedRows = select->selectedRows();
@@ -409,6 +405,24 @@ void UserInterface::Widgets::TeamserverTabSession::handleDemonContextMenu( const
                                 ->currentRow());
                         HavocX::Teamserver.TabSession->SessionGraphWidget
                             ->GraphNodeRemove(Session);
+
+                        // 把AgentID发送到服务端,服务端在数据库中删除
+                        auto Package = new Util::Packager::Package;
+                        Package->Head = Util::Packager::Head_t{
+                            .Event = Util::Packager::Session::Type,
+                            .User = HavocX::Teamserver.User.toStdString(),
+                            .Time = QTime::currentTime()
+                                        .toString("hh:mm:ss")
+                                        .toStdString(),
+                        };
+                        Package->Body = Util::Packager::Body_t{
+                            .SubEvent = Util::Packager::Session::Remove,
+                            .Info = {{"AgentID", SessionID.toStdString()}
+                            }};
+
+                        HavocX::Connector->SendPackage(Package);
+
+
                       }
                     }
                   }

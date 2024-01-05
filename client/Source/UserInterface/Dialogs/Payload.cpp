@@ -230,7 +230,7 @@ void Payload::buttonGenerate()
     };
 
     auto Body = Util::Packager::Body_t {
-            .SubEvent = Util::Packager::Gate::Stageless,
+            .SubEvent = Util::Packager::Gate::Stageless,   // 目前只有Stageless选项
             .Info = {
                 { "AgentType", this->ComboAgentType->currentText().toStdString() },
                 { "Listener",  this->ComboListener->currentText().toStdString() },
