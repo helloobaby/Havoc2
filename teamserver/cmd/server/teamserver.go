@@ -48,6 +48,7 @@ func (t *Teamserver) SetServerFlags(flags TeamserverFlags) {
 	t.Flags = flags
 }
 
+// core entrypoint
 func (t *Teamserver) Start() {
 	logger.Debug("Starting teamserver...")
 	var (
@@ -71,7 +72,8 @@ func (t *Teamserver) Start() {
 		t.Flags.Server.Port = strconv.Itoa(t.Profile.ServerPort())
 	}
 
-	gin.SetMode(gin.ReleaseMode)
+	//gin.SetMode(gin.ReleaseMode)
+	gin.SetMode(gin.DebugMode)
 	t.Server.Engine = gin.New()
 
 	t.Server.Engine.GET("/", func(context *gin.Context) {
@@ -579,6 +581,8 @@ func (t *Teamserver) handleRequest(id string) {
 		err := t.SendEvent(id, events.Authenticated(true))
 		if err != nil {
 			logger.Error("client (" + colors.Red(id) + ") error while sending authenticate message:" + colors.Red(err))
+		} else {
+			logger.Info("send package Packager::InitConnection::Type")
 		}
 	}
 
