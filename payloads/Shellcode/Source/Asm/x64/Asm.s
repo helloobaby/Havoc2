@@ -21,11 +21,11 @@ section .text$F
     KaynCaller:
            call caller
        caller:
-           pop rcx
+           pop rcx          ;获得当前rip
        loop:
            xor rbx, rbx
            mov ebx, 0x5A4D
-           inc rcx
+           inc rcx          ;增加rip
            cmp bx,  [ rcx ]
            jne loop
            xor rax, rax
@@ -35,7 +35,7 @@ section .text$F
            add bx,  0x4550
            cmp bx,  [ rax ]
            jne loop
-           mov rax, rcx
+           mov rax, rcx     ;找到基地址
        ret
 
     GetRIP:

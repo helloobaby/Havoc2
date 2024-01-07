@@ -379,7 +379,7 @@ func (b *Builder) Build() bool {
 		}
 		CompileCommand += b.compilerOptions.Main.Dll + " "
 		break
-
+	// shellcode选项
 	case FILETYPE_WINDOWS_RAW_BINARY:
 		logger.Debug("Compile dll and prepend shellcode to it.")
 

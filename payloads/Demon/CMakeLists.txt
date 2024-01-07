@@ -70,7 +70,9 @@ set( CRYPT_SOURCE
 # preprocessor flags
 add_compile_definitions( DEBUG )
 
+# 编译命令行定义宏，传递大马配置
 add_compile_definitions( CONFIG_BYTES={} )
+
 add_compile_definitions( CONFIG_SIZE=1024 )
 add_compile_definitions( CONFIG_KEY_BYTES={} )
 add_compile_definitions( CONFIG_KEY_SIZE=16 )

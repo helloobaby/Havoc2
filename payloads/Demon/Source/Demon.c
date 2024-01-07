@@ -20,6 +20,7 @@
 
 /* Global Variables */
 SEC_DATA INSTANCE Instance      = { 0 };
+// 这个应该是teamserver构建的时候通过编译命令行传递的
 SEC_DATA BYTE     AgentConfig[] = CONFIG_BYTES;
 
 /*

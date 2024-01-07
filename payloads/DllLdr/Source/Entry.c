@@ -22,9 +22,9 @@ DLLEXPORT VOID KaynLoader( LPVOID lpParameter )
     PIMAGE_TLS_CALLBACK     *callbacks      = NULL;
 
     // 0. First we need to get the DLL base
+    // KCharStringToWCharString函数的大小是0x71个字节
     StartAddress   = RVA2VA( PVOID, KCharStringToWCharString, 0x70 );
 
-    // 我感觉他是把这个Loader附加在那个DLL的前面了
     KaynLibraryLdr = KaynCaller( StartAddress );
 
     // ------------------------
@@ -84,7 +84,7 @@ DLLEXPORT VOID KaynLoader( LPVOID lpParameter )
         Instance.Win32.NtProtectVirtualMemory( NtCurrentProcess(), &SecMemory, &SecMemorySize, Protection, &OldProtection );
 
         for ( DWORD i = 0; i < NtHeaders->FileHeader.NumberOfSections; i++ )
-        {
+        {2核2G内存3M
             SecMemory       = RVA2VA( PVOID, KVirtualMemory, SecHeader[ i ].VirtualAddress );
             SecMemorySize   = SecHeader[ i ].SizeOfRawData;
             Protection      = 0;
@@ -145,6 +145,7 @@ DLLEXPORT VOID KaynLoader( LPVOID lpParameter )
 }
 
 // find entrypoint loop
+// 向下面找pe文件，这个DllLdr就是附加到
 NAKED LPVOID KaynCaller( PVOID StartAddress )
 {
     asm(

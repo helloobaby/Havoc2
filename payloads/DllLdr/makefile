@@ -8,7 +8,7 @@ EXECUTABLE_X64 = DllLdr.x64.o
 RAWBINARY_X64  = ../DllLdr.x64.bin
 
 all: x64
-
+# 反射加载是不支持x86的,最好不用x86的东西了
 x64: clean
 	@ echo "[*] Compile x64 object file..."
 
